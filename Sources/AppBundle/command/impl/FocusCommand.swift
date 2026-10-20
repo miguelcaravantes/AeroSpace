@@ -208,7 +208,7 @@ extension TreeNode {
                     return mostRecentChild?.findLeafWindowRecursive(snappedTo: direction)
                 }
             case .macosMinimizedWindowsContainer, .macosFullscreenWindowsContainer,
-                 .macosPopupWindowsContainer, .macosHiddenAppsWindowsContainer, .macosBackgroundTabsWindowsContainer,
+                 .macosPopupWindowsContainer, .macosHiddenAppsWindowsContainer,
                  .floatingWindowsContainer:
                 die("Impossible")
         }

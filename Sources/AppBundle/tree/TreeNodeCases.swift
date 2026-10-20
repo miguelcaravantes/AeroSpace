@@ -6,7 +6,6 @@ enum TreeNodeCases {
     case workspace(Workspace)
     case macosMinimizedWindowsContainer(MacosMinimizedWindowsContainer)
     case macosHiddenAppsWindowsContainer(MacosHiddenAppsWindowsContainer)
-    case macosBackgroundTabsWindowsContainer(MacosBackgroundTabsWindowsContainer)
     case macosFullscreenWindowsContainer(MacosFullscreenWindowsContainer)
     case macosPopupWindowsContainer(MacosPopupWindowsContainer)
     case floatingWindowsContainer(FloatingWindowsContainer)
@@ -17,7 +16,6 @@ enum NonLeafTreeNodeCases {
     case workspace(Workspace)
     case macosMinimizedWindowsContainer(MacosMinimizedWindowsContainer)
     case macosHiddenAppsWindowsContainer(MacosHiddenAppsWindowsContainer)
-    case macosBackgroundTabsWindowsContainer(MacosBackgroundTabsWindowsContainer)
     case macosFullscreenWindowsContainer(MacosFullscreenWindowsContainer)
     case macosPopupWindowsContainer(MacosPopupWindowsContainer)
     case floatingWindowsContainer(FloatingWindowsContainer)
@@ -33,7 +31,6 @@ enum NonLeafTreeNodeKind: Equatable {
     case workspace
     case macosMinimizedWindowsContainer
     case macosHiddenAppsWindowsContainer
-    case macosBackgroundTabsWindowsContainer
     case macosFullscreenWindowsContainer
     case macosPopupWindowsContainer
     case floatingWindowsContainer
@@ -44,7 +41,6 @@ enum WindowParentCases {
     case tilingContainer(TilingContainer)
     case macosMinimizedWindowsContainer(MacosMinimizedWindowsContainer)
     case macosHiddenAppsWindowsContainer(MacosHiddenAppsWindowsContainer)
-    case macosBackgroundTabsWindowsContainer(MacosBackgroundTabsWindowsContainer)
     case macosFullscreenWindowsContainer(MacosFullscreenWindowsContainer)
     case macosPopupWindowsContainer(MacosPopupWindowsContainer)
     case floatingWindowsContainer(FloatingWindowsContainer)
@@ -84,7 +80,6 @@ extension Window {
             case .floatingWindowsContainer(let it): .floatingWindowsContainer(it)
             case .macosFullscreenWindowsContainer(let it): .macosFullscreenWindowsContainer(it)
             case .macosHiddenAppsWindowsContainer(let it): .macosHiddenAppsWindowsContainer(it)
-            case .macosBackgroundTabsWindowsContainer(let it): .macosBackgroundTabsWindowsContainer(it)
             case .macosMinimizedWindowsContainer(let it): .macosMinimizedWindowsContainer(it)
             case .macosPopupWindowsContainer(let it): .macosPopupWindowsContainer(it)
             case .tilingContainer(let it): .tilingContainer(it)
@@ -102,7 +97,6 @@ extension TilingContainer {
             case .floatingWindowsContainer: dieT("floatingWindowsContainer can't be TilingContainer's parent")
             case .macosFullscreenWindowsContainer: dieT("macosFullscreenWindowsContainer can't be TilingContainer's parent")
             case .macosHiddenAppsWindowsContainer: dieT("macosHiddenAppsWindowsContainer can't be TilingContainer's parent")
-            case .macosBackgroundTabsWindowsContainer: dieT("macosBackgroundTabsWindowsContainer can't be TilingContainer's parent")
             case .macosMinimizedWindowsContainer: dieT("macosMinimizedWindowsContainer can't be TilingContainer's parent")
             case .macosPopupWindowsContainer: dieT("macosPopupWindowsContainer can't be TilingContainer's parent")
         }
@@ -116,7 +110,6 @@ extension TreeNode {
             case let workspace as Workspace: .workspace(workspace)
             case let tilingContainer as TilingContainer: .tilingContainer(tilingContainer)
             case let container as MacosHiddenAppsWindowsContainer: .macosHiddenAppsWindowsContainer(container)
-            case let container as MacosBackgroundTabsWindowsContainer: .macosBackgroundTabsWindowsContainer(container)
             case let container as MacosMinimizedWindowsContainer: .macosMinimizedWindowsContainer(container)
             case let container as MacosFullscreenWindowsContainer: .macosFullscreenWindowsContainer(container)
             case let container as MacosPopupWindowsContainer: .macosPopupWindowsContainer(container)
@@ -142,7 +135,6 @@ extension NonLeafTreeNodeObject {
             case let tilingContainer as TilingContainer: .tilingContainer(tilingContainer)
             case let container as MacosMinimizedWindowsContainer: .macosMinimizedWindowsContainer(container)
             case let container as MacosHiddenAppsWindowsContainer: .macosHiddenAppsWindowsContainer(container)
-            case let container as MacosBackgroundTabsWindowsContainer: .macosBackgroundTabsWindowsContainer(container)
             case let container as MacosFullscreenWindowsContainer: .macosFullscreenWindowsContainer(container)
             case let container as MacosPopupWindowsContainer: .macosPopupWindowsContainer(container)
             case let container as FloatingWindowsContainer: .floatingWindowsContainer(container)
@@ -158,7 +150,6 @@ extension NonLeafTreeNodeObject {
             case .macosMinimizedWindowsContainer: .macosMinimizedWindowsContainer
             case .macosFullscreenWindowsContainer: .macosFullscreenWindowsContainer
             case .macosHiddenAppsWindowsContainer: .macosHiddenAppsWindowsContainer
-            case .macosBackgroundTabsWindowsContainer: .macosBackgroundTabsWindowsContainer
             case .macosPopupWindowsContainer: .macosPopupWindowsContainer
         }
     }
@@ -168,7 +159,6 @@ enum ChildParentRelation: Equatable {
     case floatingWindow
     case macosNativeFullscreenWindow
     case macosNativeHiddenAppWindow
-    case macosNativeBackgroundTabWindow
     case macosNativeMinimizedWindow
     case macosPopupWindow
     case tiling(parent: TilingContainer) // todo consider splitting it on 'tiles' and 'accordion'
@@ -227,10 +217,5 @@ func getChildParentRelationOrNil(child: TreeNode, parent: NonLeafTreeNodeObject)
         case (.window, .macosHiddenAppsWindowsContainer): .macosNativeHiddenAppWindow
         case (.macosHiddenAppsWindowsContainer, _): nil
         case (_, .macosHiddenAppsWindowsContainer): nil
-
-        case (.macosBackgroundTabsWindowsContainer, .workspace): .shimContainerRelation
-        case (.window, .macosBackgroundTabsWindowsContainer): .macosNativeBackgroundTabWindow
-        case (.macosBackgroundTabsWindowsContainer, _): nil
-        case (_, .macosBackgroundTabsWindowsContainer): nil
     }
 }

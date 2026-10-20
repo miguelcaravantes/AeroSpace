@@ -99,8 +99,7 @@ final class MacWindow: Window {
                     }
                 case .macosPopupWindowsContainer, // Don't switch back on popup destruction
                      .workspace, // Workspace is invalid parent for windows
-                     .macosMinimizedWindowsContainer, // Don't switch back on minimized windows destruction
-                     .macosBackgroundTabsWindowsContainer: // Closing a background tab doesn't change the selected tab
+                     .macosMinimizedWindowsContainer: // Don't switch back on minimized windows destruction
                     break
             }
         }
@@ -176,7 +175,7 @@ final class MacWindow: Window {
                 newY = newY.coerce(in: workspaceRect.minY ... max(workspaceRect.minY, workspaceRect.maxY - windowHeight))
 
                 setAxFrame(CGPoint(x: newX, y: newY), nil)
-            case .macosNativeFullscreenWindow, .macosNativeHiddenAppWindow, .macosNativeBackgroundTabWindow, .macosNativeMinimizedWindow,
+            case .macosNativeFullscreenWindow, .macosNativeHiddenAppWindow, .macosNativeMinimizedWindow,
                  .macosPopupWindow, .tiling, .rootTilingContainer, .shimContainerRelation: break
         }
 
@@ -245,7 +244,7 @@ private func unbindAndGetBindingDataForNewTilingWindow(_ workspace: Workspace, w
 func runOnWindowDetected(ifConventional window: Window) async {
     switch window.windowParentCases {
         case .tilingContainer, .floatingWindowsContainer, .macosMinimizedWindowsContainer,
-             .macosFullscreenWindowsContainer, .macosHiddenAppsWindowsContainer, .macosBackgroundTabsWindowsContainer:
+             .macosFullscreenWindowsContainer, .macosHiddenAppsWindowsContainer:
             let layout = global_layoutForNextDetectedWindow
             global_layoutForNextDetectedWindow = nil
             defer {
